@@ -7,9 +7,13 @@ from flask_sqlalchemy import SQLAlchemy
 APP = Flask(__name__)
 APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-APP.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://%s:%s@%s/%s' % (
+port = '5432'
+if os.environ['DBPORT'] != ''
+    port = os.environ['DBPORT']
+
+APP.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://%s:%s@%s:%s/%s' % (
     # ARGS.dbuser, ARGS.dbpass, ARGS.dbhost, ARGS.dbname
-    os.environ['DBUSER'], os.environ['DBPASS'], os.environ['DBHOST'], os.environ['DBNAME']
+    os.environ['DBUSER'], os.environ['DBPASS'], os.environ['DBHOST'], port, os.environ['DBNAME']
 )
 
 # initialize the database connection
