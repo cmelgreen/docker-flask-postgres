@@ -8,8 +8,13 @@ APP = Flask(__name__)
 APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 port = '5432'
-if os.environ['DBPORT'] is None:
+
+try:
     port = os.environ['DBPORT']
+
+except:
+    pass
+    
 
 APP.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://%s:%s@%s:%s/%s' % (
     # ARGS.dbuser, ARGS.dbpass, ARGS.dbhost, ARGS.dbname
