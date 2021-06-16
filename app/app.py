@@ -3,6 +3,7 @@ import os
 from flask import Flask, request, render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from time import sleep
 
 APP = Flask(__name__)
 APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -22,7 +23,14 @@ APP.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://%s:%s@%s:%s/%s' %
 )
 
 # initialize the database connection
-DB = SQLAlchemy(APP)
+DB = None
+while DB is None:
+    try:
+        DB = SQLAlchemy(APP)
+    
+    except Exception as e:
+        print(e)
+        sleep(3)
 
 # initialize database migration management
 MIGRATE = Migrate(APP, DB)
